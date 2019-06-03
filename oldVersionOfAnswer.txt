@@ -1,0 +1,90 @@
+private async Task Answer(InstaCurrentUser curUser)
+        {
+            Stopwatch watch = new Stopwatch();
+
+            watch.Start();
+
+            while (working)
+            {
+                if (watch.ElapsedMilliseconds >= 6 * 60 * 1000)
+                    Stop();
+
+                var result = await api.GetDirectInboxAsync();
+                if (result.Succeeded && result.Value.Inbox.Threads != null && result.Value.Inbox.Threads.Count != 0)
+                    foreach (var thread1 in result.Value.Inbox.Threads)
+                    {
+                        //если бот уже чето ответил то ждем сообщения от пользователя и смотрим другой тред
+                        if (thread1.Items[0].UserId == curUser.Pk)
+                            continue;
+
+                        //загружаем весь тред
+                        var q1 = await api.GetDirectInboxThreadAsync(thread1.ThreadId);
+
+                        if (q1.Succeeded)
+                        {
+                            var thread = q1.Value;
+
+                            //определяем контактёра перебирая всех юзеров в треде
+                            int contInd = Contacts.FindIndex(x => x.Login == thread.Users[0].UserName);
+
+                            //если не найден пропускаем этот тред
+                            if (contInd == -1)
+                                continue;
+
+                            if (Contacts == null || Contacts.Count == 0)
+                                break;
+                            Contact contact = Contacts[contInd];
+
+                            //если пользователю отправили уже все наборы сообщений
+                            if (contact.Complete)                          
+                                continue;
+
+                            if (contact.LastAnswered < 0)
+                                continue;
+
+                            List<string> keyWords = proj.script.contAnsws[contact.LastAnswered];
+                            //string answer = proj.script.persMsgs[contact.LastAnswered + 1];
+
+
+                            bool found = false;
+                            foreach (string word in keyWords)
+                            {
+                                int countMsg = 0;
+                                //смотрим все последние сообщения от пользователя
+                                while (thread.Items[countMsg].UserId != curUser.Pk && countMsg + 1 < thread.Items.Count)
+                                {
+                                    //нашли ключевое слово
+                                    if (thread.Items[countMsg].Text == word)
+                                    {
+                                        //обновляем номер последнего отвеченного
+                                        contact.LastAnswered++;
+
+                                        //если это было последнее сообщение в диалоге то отправляем оператору и удаляем из списка
+                                        if (contact.Complete)
+                                        {
+                                            Contacts.RemoveAt(contInd);
+                                            proj.DialCount++;
+                                            await SendToOper(thread, curUser);
+                                            found = true;
+                                            break;
+                                        }
+
+                                        //если не последнее то пишем ответ
+                                        string answer = proj.script.persMsgs[contact.LastAnswered];
+                                        await SendMessage(thread.Users[0].Pk.ToString(), thread.ThreadId, answer);
+
+                                        found = true;
+                                        break;
+                                    }
+
+                                    countMsg++;
+                                }
+                                if (found)
+                                    break;
+                            }
+
+                        }
+                    }
+
+            }
+        }

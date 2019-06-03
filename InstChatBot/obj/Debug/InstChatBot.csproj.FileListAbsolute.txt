@@ -1,0 +1,17 @@
+C:\Work\InstChatBot\InstChatBot\bin\Debug\InstChatBot.exe.config
+C:\Work\InstChatBot\InstChatBot\bin\Debug\InstChatBot.exe
+C:\Work\InstChatBot\InstChatBot\bin\Debug\InstChatBot.pdb
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.csprojAssemblyReference.cache
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.DialogCreator.resources
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.Form1.resources
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.Properties.Resources.resources
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.csproj.GenerateResource.cache
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.csproj.CoreCompileInputs.cache
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.exe
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.pdb
+C:\Work\InstChatBot\InstChatBot\bin\Debug\Newtonsoft.Json.dll
+C:\Work\InstChatBot\InstChatBot\bin\Debug\Newtonsoft.Json.xml
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.csproj.CopyComplete
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.ProjectCreator.resources
+C:\Work\InstChatBot\InstChatBot\obj\Debug\InstChatBot.PersonCreator.resources
+C:\Work\InstChatBot\InstChatBot\bin\Debug\InstaSharper.dll
